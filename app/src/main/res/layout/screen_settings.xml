@@ -24,14 +24,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:accessibilityHeading="true"
-                android:text="@string/settings_empty_title" />
+                android:text="@string/accessibility_settings_title" />
+
+            <TextView
+                android:id="@+id/accessibility_status"
+                style="@style/FocusBuddyStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:text="@string/accessibility_status_disabled" />
 
             <TextView
                 style="@style/FocusBuddyBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_small"
-                android:text="@string/settings_empty_detail" />
+                android:layout_marginTop="@dimen/space_medium"
+                android:text="@string/accessibility_explanation" />
+
+            <TextView
+                style="@style/FocusBuddyBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:text="@string/accessibility_debug_explanation" />
+
+            <TextView
+                style="@style/FocusBuddyBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:text="@string/accessibility_limitations" />
+
+            <Button
+                android:id="@+id/open_accessibility_settings_button"
+                style="@style/FocusBuddyActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_large"
+                android:text="@string/open_accessibility_settings" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

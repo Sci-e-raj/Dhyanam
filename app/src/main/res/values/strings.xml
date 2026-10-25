@@ -36,6 +36,15 @@
     <string name="focus_minutes_title">Focus minutes</string>
     <string name="focus_minutes_empty">No focus sessions yet.</string>
     <string name="progress_note">Every finished quest is a step forward.</string>
-    <string name="settings_empty_title">Your space, your pace</string>
-    <string name="settings_empty_detail">Settings will appear here in a later milestone.</string>
+    <string name="accessibility_settings_title">YouTube observation</string>
+    <string name="accessibility_service_name">FocusBuddy YouTube observer</string>
+    <string name="accessibility_service_summary">Optional observation of YouTube for a feasibility study</string>
+    <string name="accessibility_service_description">When enabled, FocusBuddy can inspect YouTube accessibility events and view structure. Debug builds record limited diagnostics and an experimental reel UI signal. It does not block videos or control YouTube.</string>
+    <string name="accessibility_status_enabled">Service status: Enabled</string>
+    <string name="accessibility_status_disabled">Service status: Disabled</string>
+    <string name="accessibility_explanation">This optional Android service can inspect YouTube’s on-screen structure while you use YouTube. Android grants accessibility access only after you turn the service on in system settings. You can turn it off there at any time.</string>
+    <string name="accessibility_debug_explanation">In debug builds, FocusBuddy records limited YouTube event types, view classes, view IDs, and an experimental reel UI signal in device logs. It does not read or log screen text, video titles, or descriptions. FocusBuddy does not send these logs online.</string>
+    <string name="accessibility_limitations">The reel UI signal is not yet validated as a reliable Shorts detector. It does not block, navigate, or change videos.</string>
+    <string name="open_accessibility_settings">Open Android accessibility settings</string>
+    <string name="accessibility_settings_unavailable">Android accessibility settings could not be opened on this device.</string>
 </resources>

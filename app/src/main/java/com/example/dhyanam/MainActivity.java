@@ -1,8 +1,14 @@
 package com.example.dhyanam;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -110,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAccessibilityStatus();
+    }
+
     private void showScreen(int screen) {
         currentScreen = screen;
         int layout;
@@ -139,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (currentScreen == FOCUS) {
             findViewById(R.id.start_focus_button).setOnClickListener(view ->
                     Toast.makeText(this, R.string.start_focus_unavailable, Toast.LENGTH_SHORT).show());
+        } else if (currentScreen == SETTINGS) {
+            findViewById(R.id.open_accessibility_settings_button)
+                    .setOnClickListener(view -> openAccessibilitySettings());
         }
         screenTitle.setText(title);
         boolean inSettings = currentScreen == SETTINGS;
@@ -148,6 +163,35 @@ public class MainActivity extends AppCompatActivity {
         focusButton.setSelected(currentScreen == FOCUS);
         progressButton.setSelected(currentScreen == PROGRESS);
         renderQuests();
+        updateAccessibilityStatus();
+    }
+
+    private void openAccessibilitySettings() {
+        try {
+            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+        } catch (ActivityNotFoundException exception) {
+            Toast.makeText(this, R.string.accessibility_settings_unavailable, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void updateAccessibilityStatus() {
+        if (currentScreen != SETTINGS) return;
+        AccessibilityManager manager = getSystemService(AccessibilityManager.class);
+        ComponentName ourService = new ComponentName(this, YouTubeAccessibilityService.class);
+        boolean enabled = false;
+        if (manager != null) {
+            for (AccessibilityServiceInfo service : manager.getEnabledAccessibilityServiceList(
+                    AccessibilityServiceInfo.FEEDBACK_ALL_MASK)) {
+                if (ourService.equals(ComponentName.unflattenFromString(service.getId()))) {
+                    enabled = true;
+                    break;
+                }
+            }
+        }
+        TextView status = findViewById(R.id.accessibility_status);
+        status.setText(enabled ? R.string.accessibility_status_enabled
+                : R.string.accessibility_status_disabled);
+        status.setTextColor(getColor(enabled ? R.color.green_dark : R.color.ink));
     }
 
     private void renderQuests() {
