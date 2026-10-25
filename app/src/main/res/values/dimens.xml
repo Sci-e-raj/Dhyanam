@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="space_small">8dp</dimen>
+    <dimen name="space_medium">16dp</dimen>
+    <dimen name="space_large">24dp</dimen>
+    <dimen name="space_xlarge">32dp</dimen>
+    <dimen name="card_radius">24dp</dimen>
+    <dimen name="touch_target">48dp</dimen>
+    <dimen name="nav_target">56dp</dimen>
+    <dimen name="mascot_size">104dp</dimen>
+</resources>

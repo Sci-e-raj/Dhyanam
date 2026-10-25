@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="cream">#FFF9F1</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="ink">#24332B</color>
+    <color name="muted_ink">#526158</color>
+    <color name="green">#207347</color>
+    <color name="green_dark">#155A37</color>
+    <color name="green_soft">#DDF1E2</color>
+    <color name="yellow">#F8C84D</color>
+    <color name="yellow_soft">#FFF1B8</color>
+    <color name="purple_soft">#EEE4FA</color>
+    <color name="card_stroke">#DCE7DC</color>
 </resources>

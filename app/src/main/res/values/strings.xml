@@ -1,3 +1,31 @@
 <resources>
-    <string name="app_name">Dhyanam</string>
+    <string name="app_name">FocusBuddy</string>
+    <string name="today_title">Today</string>
+    <string name="focus_title">Focus</string>
+    <string name="progress_title">Progress</string>
+    <string name="settings_title">Settings</string>
+    <string name="back">Back</string>
+    <string name="mascot_description">Smiling yellow star mascot</string>
+    <string name="today_greeting">A fresh start, together!</string>
+    <string name="today_greeting_detail">Your little star is here to cheer you on.</string>
+    <string name="daily_progress_title">Daily progress</string>
+    <string name="daily_progress_empty">Nothing to track yet. Your progress will appear here after you complete quests.</string>
+    <string name="quests_title">Your quests</string>
+    <string name="quests_empty">No quests yet. This is where your tasks will appear.</string>
+    <string name="add_quest">Add quest</string>
+    <string name="add_quest_unavailable">Quest creation is coming in a later milestone.</string>
+    <string name="focus_task_label">Quest to focus on</string>
+    <string name="focus_no_task">No quest selected</string>
+    <string name="focus_timer_label">Timer preview</string>
+    <string name="focus_timer_placeholder">–:–</string>
+    <string name="focus_timer_note">Choose a quest to use the timer in a later milestone.</string>
+    <string name="start_focus">Start focus</string>
+    <string name="start_focus_unavailable">Focus sessions are coming in a later milestone.</string>
+    <string name="completed_quests_title">Completed quests</string>
+    <string name="completed_quests_empty">No completed quests yet.</string>
+    <string name="focus_minutes_title">Focus minutes</string>
+    <string name="focus_minutes_empty">No focus sessions yet.</string>
+    <string name="progress_note">Your real activity will appear here once quests and focus sessions are available.</string>
+    <string name="settings_empty_title">Your space, your pace</string>
+    <string name="settings_empty_detail">Settings will appear here in a later milestone.</string>
 </resources>
