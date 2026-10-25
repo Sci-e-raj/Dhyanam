@@ -34,6 +34,7 @@
                 android:text="@string/today_greeting" />
 
             <TextView
+                android:id="@+id/daily_progress_text"
                 style="@style/FocusBuddyBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                android:text="@string/daily_progress_empty" />
+                android:text="@string/quests_loading" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,11 +81,18 @@
                 android:text="@string/quests_title" />
 
             <TextView
+                android:id="@+id/quests_empty_view"
                 style="@style/FocusBuddyBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                android:text="@string/quests_empty" />
+                android:text="@string/quests_loading" />
+
+            <LinearLayout
+                android:id="@+id/quest_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <Button
                 android:id="@+id/add_quest_button"
@@ -94,12 +102,6 @@
                 android:layout_marginTop="@dimen/space_medium"
                 android:text="@string/add_quest" />
 
-            <TextView
-                style="@style/FocusBuddyCaption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_small"
-                android:text="@string/add_quest_unavailable" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

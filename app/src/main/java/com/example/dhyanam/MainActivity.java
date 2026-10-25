@@ -1,18 +1,27 @@
 package com.example.dhyanam;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int TODAY = 0;
@@ -31,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private Button todayButton;
     private Button focusButton;
     private Button progressButton;
+    private QuestDao questDao;
+    private List<Quest> quests = Collections.emptyList();
+    private boolean questsLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
             previousScreen = savedInstanceState.getInt(PREVIOUS_SCREEN_KEY, TODAY);
         }
         showScreen(currentScreen);
+
+        questDao = QuestDatabase.getInstance(this).questDao();
+        questDao.observeAll().observe(this, savedQuests -> {
+            quests = savedQuests;
+            questsLoaded = true;
+            renderQuests();
+        });
     }
 
     @Override
@@ -116,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
         screenContent.removeAllViews();
         getLayoutInflater().inflate(layout, screenContent, true);
         if (currentScreen == TODAY) {
-            findViewById(R.id.add_quest_button).setOnClickListener(view ->
-                    Toast.makeText(this, R.string.add_quest_unavailable, Toast.LENGTH_SHORT).show());
+            findViewById(R.id.add_quest_button).setOnClickListener(view -> showQuestDialog(null));
         } else if (currentScreen == FOCUS) {
             findViewById(R.id.start_focus_button).setOnClickListener(view ->
                     Toast.makeText(this, R.string.start_focus_unavailable, Toast.LENGTH_SHORT).show());
@@ -129,5 +147,129 @@ public class MainActivity extends AppCompatActivity {
         todayButton.setSelected(currentScreen == TODAY);
         focusButton.setSelected(currentScreen == FOCUS);
         progressButton.setSelected(currentScreen == PROGRESS);
+        renderQuests();
+    }
+
+    private void renderQuests() {
+        if (currentScreen == TODAY) {
+            TextView progress = findViewById(R.id.daily_progress_text);
+            TextView empty = findViewById(R.id.quests_empty_view);
+            LinearLayout list = findViewById(R.id.quest_list);
+            if (!questsLoaded) {
+                progress.setText(R.string.quests_loading);
+                empty.setText(R.string.quests_loading);
+                return;
+            }
+
+            int completed = 0;
+            for (Quest quest : quests) {
+                if (quest.completed) completed++;
+            }
+            progress.setText(quests.isEmpty()
+                    ? getString(R.string.daily_progress_empty)
+                    : getString(R.string.daily_progress_count, completed, quests.size()));
+            empty.setVisibility(quests.isEmpty() ? View.VISIBLE : View.GONE);
+            empty.setText(R.string.quests_empty);
+            list.removeAllViews();
+            for (Quest quest : quests) {
+                View row = getLayoutInflater().inflate(R.layout.item_quest, list, false);
+                CheckBox checkBox = row.findViewById(R.id.quest_checkbox);
+                checkBox.setText(quest.title);
+                checkBox.setChecked(quest.completed);
+                if (quest.completed) {
+                    checkBox.setPaintFlags(checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                checkBox.setOnCheckedChangeListener((button, checked) ->
+                        QuestDatabase.writeExecutor.execute(() -> questDao.setCompleted(quest.id, checked)));
+
+                Button edit = row.findViewById(R.id.edit_quest_button);
+                edit.setContentDescription(getString(R.string.edit_quest_description, quest.title));
+                edit.setOnClickListener(view -> showQuestDialog(quest));
+
+                Button delete = row.findViewById(R.id.delete_quest_button);
+                delete.setContentDescription(getString(R.string.delete_quest_description, quest.title));
+                delete.setOnClickListener(view -> confirmDelete(quest));
+                list.addView(row);
+            }
+        } else if (currentScreen == PROGRESS) {
+            TextView empty = findViewById(R.id.completed_quests_empty_view);
+            LinearLayout list = findViewById(R.id.completed_quest_list);
+            list.removeAllViews();
+            if (!questsLoaded) {
+                empty.setText(R.string.quests_loading);
+                return;
+            }
+            int completed = 0;
+            for (Quest quest : quests) {
+                if (quest.completed) {
+                    completed++;
+                    View row = getLayoutInflater().inflate(R.layout.item_completed_quest, list, false);
+                    TextView title = row.findViewById(R.id.completed_quest_title);
+                    title.setText(quest.title);
+                    list.addView(row);
+                }
+            }
+            empty.setVisibility(completed == 0 ? View.VISIBLE : View.GONE);
+            empty.setText(R.string.completed_quests_empty);
+        }
+    }
+
+    private void showQuestDialog(Quest quest) {
+        View form = getLayoutInflater().inflate(R.layout.dialog_quest_title, null);
+        EditText titleInput = form.findViewById(R.id.quest_title_input);
+        if (quest != null) {
+            titleInput.setText(quest.title);
+            titleInput.setSelection(titleInput.length());
+        }
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(quest == null ? R.string.add_quest : R.string.edit_quest)
+                .setView(form)
+                .setPositiveButton(quest == null ? R.string.add_quest : R.string.save_quest, null)
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+        dialog.setOnShowListener(ignored -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            String rawTitle = titleInput.getText().toString();
+            int start = 0;
+            int end = rawTitle.length();
+            while (start < end && isBlankSpace(rawTitle.charAt(start))) start++;
+            while (end > start && isBlankSpace(rawTitle.charAt(end - 1))) end--;
+            String title = rawTitle.substring(start, end);
+            if (title.isEmpty()) {
+                titleInput.setError(getString(R.string.blank_quest_title));
+                titleInput.requestFocus();
+                return;
+            }
+            if (quest == null) {
+                Quest newQuest = new Quest();
+                newQuest.title = title;
+                newQuest.createdAt = System.currentTimeMillis();
+                QuestDatabase.writeExecutor.execute(() -> questDao.insert(newQuest));
+            } else {
+                QuestDatabase.writeExecutor.execute(() -> questDao.updateTitle(quest.id, title));
+            }
+            dialog.dismiss();
+        }));
+        dialog.show();
+        titleInput.setOnEditorActionListener((view, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void confirmDelete(Quest quest) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_quest)
+                .setMessage(getString(R.string.delete_quest_message, quest.title))
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete_quest, (dialog, which) ->
+                        QuestDatabase.writeExecutor.execute(() -> questDao.delete(quest.id)))
+                .show();
+    }
+
+    private static boolean isBlankSpace(char character) {
+        return Character.isWhitespace(character) || Character.isSpaceChar(character);
     }
 }

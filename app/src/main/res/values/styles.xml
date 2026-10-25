@@ -17,6 +17,11 @@
         <item name="android:textColor">@color/muted_ink</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="FocusBuddyQuestCheckBox">
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+    </style>
     <style name="FocusBuddyActionButton">
         <item name="android:background">@drawable/bg_action_button</item>
         <item name="android:textColor">@color/surface</item>

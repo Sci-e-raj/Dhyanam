@@ -34,11 +34,18 @@
                 android:text="@string/completed_quests_title" />
 
             <TextView
+                android:id="@+id/completed_quests_empty_view"
                 style="@style/FocusBuddyBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                android:text="@string/completed_quests_empty" />
+                android:text="@string/quests_loading" />
+
+            <LinearLayout
+                android:id="@+id/completed_quest_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
         </LinearLayout>
 
         <LinearLayout

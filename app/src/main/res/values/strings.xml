@@ -8,12 +8,22 @@
     <string name="mascot_description">Smiling yellow star mascot</string>
     <string name="today_greeting">A fresh start, together!</string>
     <string name="today_greeting_detail">Your little star is here to cheer you on.</string>
-    <string name="daily_progress_title">Daily progress</string>
-    <string name="daily_progress_empty">Nothing to track yet. Your progress will appear here after you complete quests.</string>
+    <string name="daily_progress_title">Quest progress</string>
+    <string name="daily_progress_empty">Add a quest to begin your journey.</string>
+    <string name="daily_progress_count">%1$d of %2$d quests complete</string>
     <string name="quests_title">Your quests</string>
-    <string name="quests_empty">No quests yet. This is where your tasks will appear.</string>
+    <string name="quests_empty">No quests yet. Add one small goal to get started!</string>
     <string name="add_quest">Add quest</string>
-    <string name="add_quest_unavailable">Quest creation is coming in a later milestone.</string>
+    <string name="quests_loading">Loading quests…</string>
+    <string name="edit_quest">Edit</string>
+    <string name="delete_quest">Delete</string>
+    <string name="save_quest">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="quest_title_hint">Quest title</string>
+    <string name="blank_quest_title">Enter a quest title.</string>
+    <string name="edit_quest_description">Edit %1$s</string>
+    <string name="delete_quest_description">Delete %1$s</string>
+    <string name="delete_quest_message">Delete “%1$s”? This cannot be undone.</string>
     <string name="focus_task_label">Quest to focus on</string>
     <string name="focus_no_task">No quest selected</string>
     <string name="focus_timer_label">Timer preview</string>
@@ -25,7 +35,7 @@
     <string name="completed_quests_empty">No completed quests yet.</string>
     <string name="focus_minutes_title">Focus minutes</string>
     <string name="focus_minutes_empty">No focus sessions yet.</string>
-    <string name="progress_note">Your real activity will appear here once quests and focus sessions are available.</string>
+    <string name="progress_note">Every finished quest is a step forward.</string>
     <string name="settings_empty_title">Your space, your pace</string>
     <string name="settings_empty_detail">Settings will appear here in a later milestone.</string>
 </resources>

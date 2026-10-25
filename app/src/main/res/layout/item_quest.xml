@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_medium"
+    android:background="@drawable/bg_yellow_card"
+    android:orientation="vertical"
+    android:padding="@dimen/space_medium">
+
+    <CheckBox
+        android:id="@+id/quest_checkbox"
+        style="@style/FocusBuddyQuestCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/edit_quest_button"
+            style="@style/FocusBuddyTextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_target"
+            android:text="@string/edit_quest" />
+
+        <Button
+            android:id="@+id/delete_quest_button"
+            style="@style/FocusBuddyTextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_target"
+            android:text="@string/delete_quest" />
+    </LinearLayout>
+</LinearLayout>
