@@ -22,6 +22,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -154,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
         } else if (currentScreen == SETTINGS) {
             findViewById(R.id.open_accessibility_settings_button)
                     .setOnClickListener(view -> openAccessibilitySettings());
+            SwitchCompat blockingSwitch = findViewById(R.id.block_shorts_switch);
+            blockingSwitch.setChecked(BlockingPreferences.isBlockingEnabled(this));
+            blockingSwitch.setOnCheckedChangeListener((button, checked) -> {
+                BlockingPreferences.setBlockingEnabled(this, checked);
+                updateAccessibilityStatus();
+            });
         }
         screenTitle.setText(title);
         boolean inSettings = currentScreen == SETTINGS;
@@ -192,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
         status.setText(enabled ? R.string.accessibility_status_enabled
                 : R.string.accessibility_status_disabled);
         status.setTextColor(getColor(enabled ? R.color.green_dark : R.color.ink));
+        TextView permissionNote = findViewById(R.id.blocking_service_note);
+        permissionNote.setVisibility(!enabled && BlockingPreferences.isBlockingEnabled(this)
+                ? View.VISIBLE : View.GONE);
     }
 
     private void renderQuests() {

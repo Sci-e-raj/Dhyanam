@@ -15,6 +15,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_yellow_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_large">
+
+            <TextView
+                style="@style/FocusBuddyHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/blocking_card_title" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/block_shorts_switch"
+                style="@style/FocusBuddyStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:minHeight="@dimen/touch_target"
+                android:text="@string/block_shorts_switch" />
+
+            <TextView
+                style="@style/FocusBuddyBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="@string/blocking_explanation" />
+
+            <TextView
+                android:id="@+id/blocking_service_note"
+                style="@style/FocusBuddyBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:text="@string/blocking_needs_service"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_medium"
             android:background="@drawable/bg_card"
             android:orientation="vertical"
             android:padding="@dimen/space_large">
